@@ -57,13 +57,19 @@ class App extends Component {
       })
     }
 
+    modalCloseHandler = () => {
+      this.setState({
+        isDisplay: false
+      })
+    }
+
     render() {
         return (
             <Aux>
                 <div>This app is created by Amit miShra</div>
                 <Search changed={(evt) => this.changeHandler(evt)}/>
                 <SearchResult allResults={this.state.allResults} clicked={this.clickHandler}/>
-                <Modal show={this.state.isDisplay} currentBook={this.state.currentBook}/>
+                <Modal show={this.state.isDisplay} currentBook={this.state.currentBook} modalClose={this.modalCloseHandler}/>
             </Aux>
         );
     }

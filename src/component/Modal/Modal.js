@@ -14,7 +14,7 @@ class Modal extends Component {
                     return <span className={classes.Author} key={currentBook.authors[key].id}>by {currentBook.authors[key].name}</span>
                 })
             book = <div>
-                <span className={classes.Close}>X</span>
+                <span className={classes.Close} onClick={this.props.modalClose}>X</span>
                 <div className={classes.Card} key={currentBook.title}><img src={currentBook.image_url} alt='Not found'/></div>
                 <div>
                     <span className={classes.Title}>{currentBook.title}</span>
