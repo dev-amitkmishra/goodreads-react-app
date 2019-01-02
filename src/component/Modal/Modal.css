@@ -17,14 +17,20 @@
     margin-left: 113px;
     margin-top: -138px;
     font-weight: bold;
-    max-width: 200px;
+    max-width: 900px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .Author {
     float: left;
     margin-left: 113px;
     margin-top: -113px;
-    max-width: 200px;
+    max-width: 900px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .AverageRating {
@@ -47,12 +53,3 @@
     float: right;
     cursor: pointer;
 }
-
-
-
-/* @media (min-width: 600px) {
-    .Modal {
-        width: 500px;
-        left: calc(50% - 250px);
-    }
-} */

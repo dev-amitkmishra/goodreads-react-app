@@ -6,6 +6,7 @@ import SearchResult from './Component/SearchResult/SearchResult';
 import Modal from './Component/Modal/Modal';
 import proxify from 'proxify-url';
 import axios from 'axios';
+import Overlay from './Component/Overlay/Overlay';
 
 // key: F3Bik4kyfevhEVa9X2Y9dQ secret: WBCoe9yr3o0xiKpDZGy1l7PjGx6PqoapWotLuAc
 class App extends Component {
@@ -77,6 +78,7 @@ class App extends Component {
     render() {
         return (
             <Aux>
+                <Overlay showLoader={this.state.isDisplayLoader}/>
                 <Search changed={(evt) => this.changeHandler(evt)}/>
                 <SearchResult allResults={this.state.allResults} clicked={this.clickHandler}/>
                 <Modal
