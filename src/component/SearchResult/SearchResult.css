@@ -9,4 +9,15 @@
     height: 200px;
     overflow-y: auto;
     min-width: 200px;
-  }
+    background-color: #fff;
+}
+
+.Container {
+    background: #eeeeee;
+    max-width: 1500px;
+    width: auto;
+    margin: 35px;
+    height: 500px;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}

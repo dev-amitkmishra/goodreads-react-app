@@ -4,6 +4,10 @@ import Aux from '../../hoc/_aux';
 import Overlay from '../Overlay/Overlay';
 
 class Modal extends Component {
+    componentDidMount() {
+        // the setTimeout just simulates an async action, after which the component will render the content
+        setTimeout(() => this.setState({ isDisplayLoader: false }), 1500);
+      } 
     render() {
         let book = '';
         if (this.props.currentBook && this.props.currentBook.length > 0) {
@@ -28,6 +32,8 @@ class Modal extends Component {
                 </div>
 
             </div>
+        } else if (this.props.isDisplayLoader) {
+            book = <div>Loading...</div>
         }
         return (
             <Aux>

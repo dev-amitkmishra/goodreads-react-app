@@ -12,7 +12,8 @@ class App extends Component {
     state = {
         allResults: [],
         currentBook: null,
-        isDisplay: false
+        isDisplay: false,
+        isDisplayLoader: false
     }
     changeHandler = (input) => {
         const searchText = input.target.value;
@@ -20,10 +21,8 @@ class App extends Component {
     }
 
     getData = (searchText) => {
-        const url = 'https://www.goodreads.com/search/index.xml?key=F3Bik4kyfevhEVa9X2Y9dQ&q=react';
-        let proxyUrl = proxify(url, {inputFormat: 'xml'});
-        axios
-            .get(proxyUrl)
+        this
+            .getDataFromGoodReadsApi('https://www.goodreads.com/search/index.xml?key=F3Bik4kyfevhEVa9X2Y9dQ&q=' + searchText)
             .then((resp) => {
                 let jsonData = resp.data.query.results.GoodreadsResponse.search.results.work;
                 const arr = Object
@@ -39,28 +38,41 @@ class App extends Component {
     }
 
     clickHandler = (book) => {
-      const url = 'https://www.goodreads.com/book/show/'+ book.best_book.id.content+'?key=F3Bik4kyfevhEVa9X2Y9dQ';
-        let proxyUrl = proxify(url, {inputFormat: 'xml'});
-        axios
-            .get(proxyUrl)
+        this.setState({
+            isDisplayLoader: true
+        });
+        this
+            .getDataFromGoodReadsApi('https://www.goodreads.com/book/show/' + book.best_book.id.content + '?key=F3Bik4kyfevhEVa9X2Y9dQ')
             .then((resp) => {
                 let jsonData = resp.data.query.results.GoodreadsResponse.book;
-                this.setState({currentBook: [jsonData]})
+                this.setState({
+                    currentBook: [jsonData],
+                    isDisplay: true,
+                    isDisplayLoader: false
+                });
             })
             .catch((err) => {
                 console.log(err);
             })
-      
-      this.setState({
-        isDisplay: true,
-        currentBook: book
-      })
+    }
+
+    getDataFromGoodReadsApi = (url) => {
+        return new Promise((resolve, reject) => {
+            let proxyUrl = proxify(url, {inputFormat: 'xml'});
+            axios
+                .get(proxyUrl)
+                .then((resp) => {
+                    resolve(resp);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    reject(err);
+                })
+        })
     }
 
     modalCloseHandler = () => {
-      this.setState({
-        isDisplay: false
-      })
+        this.setState({isDisplay: false})
     }
 
     render() {
@@ -69,7 +81,10 @@ class App extends Component {
                 <div>This app is created by Amit miShra</div>
                 <Search changed={(evt) => this.changeHandler(evt)}/>
                 <SearchResult allResults={this.state.allResults} clicked={this.clickHandler}/>
-                <Modal show={this.state.isDisplay} currentBook={this.state.currentBook} modalClose={this.modalCloseHandler}/>
+                <Modal
+                    show={this.state.isDisplay}
+                    currentBook={this.state.currentBook}
+                    modalClose={this.modalCloseHandler}/>
             </Aux>
         );
     }

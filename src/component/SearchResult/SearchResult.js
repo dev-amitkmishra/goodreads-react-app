@@ -16,7 +16,7 @@ const searchResult = (props) => {
             })
         })
     return (
-        <div>
+        <div className={classes.Container}>
             {result}
         </div>
     )
