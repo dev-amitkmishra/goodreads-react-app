@@ -17,22 +17,25 @@ class App extends Component {
     }
     changeHandler = (input) => {
         const searchText = input.target.value;
-        if (searchText.length >= 3) {
-            this.getData(searchText);
-        }
+        this.getData(searchText);
     }
 
     getData = (searchText) => {
         this
             .getDataFromGoodReadsApi('https://www.goodreads.com/search/index.xml?key=F3Bik4kyfevhEVa9X2Y9dQ&q=' + searchText)
             .then((resp) => {
-                let jsonData = resp.data.query.results.GoodreadsResponse.search.results.work;
-                const arr = Object
-                    .keys(jsonData)
-                    .map((key) => {
-                        return [key, jsonData[key]];
-                    });
-                this.setState({allResults: arr})
+                try {
+                    let jsonData = resp.data.query.results.GoodreadsResponse.search.results.work;
+                    const arr = Object
+                        .keys(jsonData)
+                        .map((key) => {
+                            return [key, jsonData[key]];
+                        });
+                    this.setState({allResults: arr});
+                } catch (error) {
+                    console.log(error);
+                    this.setState({allResults: [{'status': 'No Response from API'}]});
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -40,18 +43,12 @@ class App extends Component {
     }
 
     clickHandler = (book) => {
-        this.setState({
-            isDisplayLoader: true
-        });
+        this.setState({isDisplayLoader: true});
         this
             .getDataFromGoodReadsApi('https://www.goodreads.com/book/show/' + book.best_book.id.content + '?key=F3Bik4kyfevhEVa9X2Y9dQ')
             .then((resp) => {
                 let jsonData = resp.data.query.results.GoodreadsResponse.book;
-                this.setState({
-                    currentBook: [jsonData],
-                    isDisplay: true,
-                    isDisplayLoader: false
-                });
+                this.setState({currentBook: [jsonData], isDisplay: true, isDisplayLoader: false});
             })
             .catch((err) => {
                 console.log(err);

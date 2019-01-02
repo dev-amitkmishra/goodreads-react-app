@@ -2,10 +2,16 @@ import React from "react";
 import classes from './SearchResult.css';
 
 const searchResult = (props) => {
-    let result = Object
+    debugger;
+    let result = '';
+    result = Object
         .keys(props.allResults)
         .map(key => {
+            debugger;
             return [...Array(props.allResults[key])].map((bookInfo, i) => {
+                if (bookInfo.status) {
+                    return <span className={classes.NoResponse}>{bookInfo.status}</span>;
+                }
                 let book = bookInfo[1];
                 return <div
                     className={classes.Card}
