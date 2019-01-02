@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import './App.css';
 import Aux from './hoc/_aux';
-import Search from './Component/Search/Search';
-import SearchResult from './Component/SearchResult/SearchResult';
-import Modal from './Component/Modal/Modal';
+import Search from './component/Search/Search';
+import SearchResult from './component/SearchResult/SearchResult';
+import Modal from './component/Modal/Modal';
 import proxify from 'proxify-url';
 import axios from 'axios';
-import Overlay from './Component/Overlay/Overlay';
+import Overlay from './component/Overlay/Overlay';
 
-// key: F3Bik4kyfevhEVa9X2Y9dQ secret: WBCoe9yr3o0xiKpDZGy1l7PjGx6PqoapWotLuAc
 class App extends Component {
     state = {
         searchText: '',
@@ -38,7 +37,6 @@ class App extends Component {
 
     getData = (searchText) => {
         const url = axios.defaults.baseURL + '/search/index.xml?key=' + axios.defaults.apiKey +'&q=' + searchText;
-        debugger;
         this
             .getDataFromGoodReadsApi(url)
             .then((resp) => {
@@ -62,7 +60,6 @@ class App extends Component {
 
     clickHandler = (book) => {
         const url = axios.defaults.baseURL + '/book/show/' + book.best_book.id.content + '?key=' + axios.defaults.apiKey;
-        debugger;
         this.setState({isDisplayLoader: true});
         this
             .getDataFromGoodReadsApi(url)
