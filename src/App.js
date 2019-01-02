@@ -11,19 +11,36 @@ import Overlay from './Component/Overlay/Overlay';
 // key: F3Bik4kyfevhEVa9X2Y9dQ secret: WBCoe9yr3o0xiKpDZGy1l7PjGx6PqoapWotLuAc
 class App extends Component {
     state = {
+        searchText: '',
         allResults: [],
         currentBook: null,
         isDisplay: false,
-        isDisplayLoader: false
+        isDisplayLoader: false,
+        isContentLoading: false
     }
-    changeHandler = (input) => {
+
+    inputChangeHandler = (input) => {
         const searchText = input.target.value;
+        this.setState({
+            searchText: searchText
+        });
+    };
+
+    buttonClickHandler = () => {
+        const searchText = this.state.searchText;
+        if(searchText.length === 0) {
+            this.setState({allResults: [{'status': 'Nothing to search'}]});
+            return null;
+        }
+        this.setState({isContentLoading: true});
         this.getData(searchText);
     }
 
     getData = (searchText) => {
+        const url = axios.defaults.baseURL + '/search/index.xml?key=' + axios.defaults.apiKey +'&q=' + searchText;
+        debugger;
         this
-            .getDataFromGoodReadsApi('https://www.goodreads.com/search/index.xml?key=F3Bik4kyfevhEVa9X2Y9dQ&q=' + searchText)
+            .getDataFromGoodReadsApi(url)
             .then((resp) => {
                 try {
                     let jsonData = resp.data.query.results.GoodreadsResponse.search.results.work;
@@ -32,10 +49,10 @@ class App extends Component {
                         .map((key) => {
                             return [key, jsonData[key]];
                         });
-                    this.setState({allResults: arr});
+                    this.setState({allResults: arr, isContentLoading: false});
                 } catch (error) {
                     console.log(error);
-                    this.setState({allResults: [{'status': 'No Response from API'}]});
+                    this.setState({allResults: [{'status': 'No Response from API'}], isContentLoading: false});
                 }
             })
             .catch((err) => {
@@ -44,9 +61,11 @@ class App extends Component {
     }
 
     clickHandler = (book) => {
+        const url = axios.defaults.baseURL + '/book/show/' + book.best_book.id.content + '?key=' + axios.defaults.apiKey;
+        debugger;
         this.setState({isDisplayLoader: true});
         this
-            .getDataFromGoodReadsApi('https://www.goodreads.com/book/show/' + book.best_book.id.content + '?key=F3Bik4kyfevhEVa9X2Y9dQ')
+            .getDataFromGoodReadsApi(url)
             .then((resp) => {
                 let jsonData = resp.data.query.results.GoodreadsResponse.book;
                 this.setState({currentBook: [jsonData], isDisplay: true, isDisplayLoader: false});
@@ -79,8 +98,8 @@ class App extends Component {
         return (
             <Aux>
                 <Overlay showLoader={this.state.isDisplayLoader}/>
-                <Search changed={(evt) => this.changeHandler(evt)}/>
-                <SearchResult allResults={this.state.allResults} clicked={this.clickHandler}/>
+                <Search buttonClick={this.buttonClickHandler} changed={(evt) => this.inputChangeHandler(evt)}/>
+                <SearchResult allResults={this.state.allResults} clicked={this.clickHandler} contentLoading={this.state.isContentLoading}/>
                 <Modal
                     show={this.state.isDisplay}
                     currentBook={this.state.currentBook}

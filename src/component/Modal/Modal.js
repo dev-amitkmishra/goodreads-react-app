@@ -4,10 +4,6 @@ import Aux from '../../hoc/_aux';
 import Overlay from '../Overlay/Overlay';
 
 class Modal extends Component {
-    componentDidMount() {
-        // the setTimeout just simulates an async action, after which the component will render the content
-        setTimeout(() => this.setState({ isDisplayLoader: false }), 1500);
-      } 
     render() {
         let book = '';
         if (this.props.currentBook && this.props.currentBook.length > 0) {
@@ -17,8 +13,8 @@ class Modal extends Component {
                 .map((key) => {
                     return <span className={classes.Author} key={currentBook.authors[key].id}>by {currentBook.authors[key].name}</span>
                 })
-            book = <div>
-                <span className={classes.Close} onClick={this.props.modalClose}>X</span>
+            book = <div key={currentBook.id}>
+                <span className={classes.Close} title="Close" onClick={this.props.modalClose}>x</span>
                 <div className={classes.Card} key={currentBook.title}><img src={currentBook.image_url} alt='Not found'/></div>
                 <div>
                     <span className={classes.Title}>{currentBook.title}</span>

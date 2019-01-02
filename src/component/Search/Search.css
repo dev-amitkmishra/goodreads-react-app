@@ -1,6 +1,5 @@
 .Input {
     background: #FFFFFF;
-    border-radius: 5px;
     border: #DCD6CC 1px solid;
     color: #333333;
     resize: none;
@@ -9,9 +8,28 @@
     font-size: 17px;
     margin-left: 25%;
     margin-top: 29px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .Input:focus {
     border: #addbf5 1px solid;
     outline: none;
+}
+
+.Button {
+    background: #009eec;
+    height: 47px;
+    margin-top: 28px;
+    position: absolute;
+    margin-left: -1px;
+    color: white;
+    border-top-right-radius: 5px;
+    font-size: 15px;
+    border-bottom-right-radius: 5px;
+}
+
+.Button:focus {
+    outline: none;
+    cursor: pointer;
 }

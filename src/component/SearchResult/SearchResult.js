@@ -1,5 +1,6 @@
 import React from "react";
 import classes from './SearchResult.css';
+import Overlay from '../Overlay/Overlay';
 
 const searchResult = (props) => {
     let result = '';
@@ -21,6 +22,7 @@ const searchResult = (props) => {
         })
     return (
         <div className={classes.Container}>
+            <Overlay showLoader={props.contentLoading}/>
             {result}
         </div>
     )
