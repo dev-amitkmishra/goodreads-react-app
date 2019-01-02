@@ -13,9 +13,9 @@ class App extends Component {
         searchText: '',
         allResults: [],
         currentBook: null,
-        isDisplay: false,
-        isDisplayLoader: false,
-        isContentLoading: false
+        isDisplay: false, //to display modal
+        isDisplayLoader: false, //to display loader
+        isContentLoading: false // to display content on click of search button
     }
 
     inputChangeHandler = (input) => {
@@ -64,8 +64,13 @@ class App extends Component {
         this
             .getDataFromGoodReadsApi(url)
             .then((resp) => {
-                let jsonData = resp.data.query.results.GoodreadsResponse.book;
-                this.setState({currentBook: [jsonData], isDisplay: true, isDisplayLoader: false});
+                try {
+                    let jsonData = resp.data.query.results.GoodreadsResponse.book;
+                    this.setState({currentBook: [jsonData], isDisplay: true, isDisplayLoader: false});
+                } catch (error) {
+                    console.log(error);
+                    alert('No Response from API');
+                }
             })
             .catch((err) => {
                 console.log(err);
