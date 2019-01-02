@@ -6,7 +6,7 @@ const searchResult = (props) => {
         .keys(props.allResults)
         .map(key => {
             return [...Array(props.allResults[key])].map((_, i) => {
-                return <div className={classes.Card}><h4 key={key + i} type={key}>{props.allResults[key]}</h4></div>
+                return <div className={classes.Card}><h4 key={key + i}>{props.allResults[key]}</h4></div>
             })
         })
     return (
