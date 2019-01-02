@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import './App.css';
 import Aux from './hoc/_aux';
-import Search from './component/Search/Search';
-import SearchResult from './component/SearchResult/SearchResult';
-import Modal from './component/Modal/Modal';
+import Search from './Component/Search/Search';
+import SearchResult from './Component/SearchResult/SearchResult';
+import Modal from './Component/Modal/Modal';
 import proxify from 'proxify-url';
 import axios from 'axios';
 
@@ -17,7 +17,9 @@ class App extends Component {
     }
     changeHandler = (input) => {
         const searchText = input.target.value;
-        this.getData(searchText);
+        if (searchText.length >= 3) {
+            this.getData(searchText);
+        }
     }
 
     getData = (searchText) => {
@@ -78,7 +80,6 @@ class App extends Component {
     render() {
         return (
             <Aux>
-                <div>This app is created by Amit miShra</div>
                 <Search changed={(evt) => this.changeHandler(evt)}/>
                 <SearchResult allResults={this.state.allResults} clicked={this.clickHandler}/>
                 <Modal
