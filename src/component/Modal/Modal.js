@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import classes from './Modal.css';
 import Aux from '../../hoc/_aux';
 import Overlay from '../Overlay/Overlay';
+import StarRatings from 'react-star-ratings';
 
 class Modal extends Component {
     render() {
@@ -19,11 +20,16 @@ class Modal extends Component {
                 <div>
                     <span className={classes.Title}>{currentBook.title}</span>
                     {authors}
-                    <span className={classes.AverageRating}>{currentBook.average_rating}</span>
+
+                    <span className={classes.AverageRating}><StarRatings
+                        rating={parseInt(currentBook.average_rating)}
+                        starDimension="20px"
+                        starRatedColor="orange"
+                        starSpacing="5px"/> {currentBook.average_rating}</span>
                     <span
                         className={classes.Description}
                         dangerouslySetInnerHTML={{
-                        __html: currentBook.description
+                        __html: currentBook.description || 'No description found'
                     }}></span>
                 </div>
 
