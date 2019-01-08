@@ -9,7 +9,7 @@ const searchResult = (props) => {
         .map(key => {
             return [...Array(props.allResults[key])].map((bookInfo, i) => {
                 if (bookInfo.status) {
-                    return <span className={classes.NoResponse}>{bookInfo.status}</span>;
+                    return <span className={classes.NoResponse} key={'bookInfo' + i}>{bookInfo.status}</span>;
                 }
                 let book = bookInfo[1];
                 return <div
@@ -21,7 +21,7 @@ const searchResult = (props) => {
             })
         })
     return (
-        <div className={classes.Container}>
+        <div className={classes.Container} key='container'>
             <Overlay showLoader={props.contentLoading}/>
             {result}
         </div>

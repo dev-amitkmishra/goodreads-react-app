@@ -8,29 +8,35 @@ class Modal extends Component {
     render() {
         let book = '';
         if (this.props.currentBook && this.props.currentBook.length > 0) {
-            let currentBook = this.props.currentBook[0];
-            const authors = Object
-                .keys(currentBook.authors)
-                .map((key) => {
-                    return <span className={classes.Author} key={currentBook.authors[key].id}>by {currentBook.authors[key].name}</span>
-                })
+            const currentBook = this.props.currentBook[0];
+            let authors = <span className={classes.Author}>No author found</span>;
+            let ratings = <span className={classes.AverageRating}>No ratings found</span>;
+            let description = <span className={classes.Description}>No description found</span>;
+            if (currentBook.authors) {
+                authors = Object
+                    .keys(currentBook.authors)
+                    .map((key) => {
+                        return <span className={classes.Author} key={currentBook.authors[key].id}>by {currentBook.authors[key].name}</span>
+                    })
+            }
+            if (currentBook.average_rating) {
+                ratings = <span className={classes.AverageRating}><StarRatings
+                    rating={parseInt(currentBook.average_rating)}
+                    starDimension="20px"
+                    starRatedColor="orange"
+                    starSpacing="5px"/> {currentBook.average_rating}</span>
+            }
+            if (typeof currentBook.description === 'string' && currentBook.description.length > 0) {
+                description = <span className={classes.Description} dangerouslySetInnerHTML={{__html: currentBook.description}}></span>
+            }
             book = <div key={currentBook.id}>
                 <span className={classes.Close} title="Close" onClick={this.props.modalClose}>x</span>
                 <div className={classes.Card} key={currentBook.title}><img src={currentBook.image_url} alt='Not found'/></div>
                 <div>
                     <span className={classes.Title}>{currentBook.title}</span>
                     {authors}
-
-                    <span className={classes.AverageRating}><StarRatings
-                        rating={parseInt(currentBook.average_rating)}
-                        starDimension="20px"
-                        starRatedColor="orange"
-                        starSpacing="5px"/> {currentBook.average_rating}</span>
-                    <span
-                        className={classes.Description}
-                        dangerouslySetInnerHTML={{
-                        __html: currentBook.description || 'No description found'
-                    }}></span>
+                    {ratings}
+                    {description}
                 </div>
 
             </div>

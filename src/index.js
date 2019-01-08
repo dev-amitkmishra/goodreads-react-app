@@ -6,8 +6,8 @@ import * as serviceWorker from './serviceWorker';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'https://www.goodreads.com';
-axios.defaults.apiKey = 'F3Bik4kyfevhEVa9X2Y9dQ';
-axios.defaults.apiSecret = 'WBCoe9yr3o0xiKpDZGy1l7PjGx6PqoapWotLuAc';
+axios.defaults.apiKey = 'HW9oK1OCdzb6ayaoLDwRw';
+axios.defaults.apiSecret = 'arTgJgEhlHHaZwySJx8dp5pez4e69EdHhNJO6D9lo';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
